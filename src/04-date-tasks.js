@@ -19,9 +19,7 @@
  *    'Tue, 26 Jan 2016 13:48:02 GMT' => Date()
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
-function parseDataFromRfc2822(/* value */) {
-  throw new Error('Not implemented');
-}
+const parseDataFromRfc2822 = (date) => Date.parse(date);
 
 /**
  * Parses an ISO 8601 string date representation into date value
@@ -34,10 +32,7 @@ function parseDataFromRfc2822(/* value */) {
  *    '2016-01-19T16:07:37+00:00'    => Date()
  *    '2016-01-19T08:07:37Z' => Date()
  */
-function parseDataFromIso8601(/* value */) {
-  throw new Error('Not implemented');
-}
-
+const parseDataFromIso8601 = (date) => Date.parse(date);
 
 /**
  * Returns true if specified date is leap year and false otherwise
@@ -53,10 +48,10 @@ function parseDataFromIso8601(/* value */) {
  *    Date(2012,1,1)    => true
  *    Date(2015,1,1)    => false
  */
-function isLeapYear(/* date */) {
-  throw new Error('Not implemented');
-}
-
+const isLeapYear = (date) => {
+  const year = date.getFullYear();
+  return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
+};
 
 /**
  * Returns the string representation of the timespan between two dates.
@@ -73,10 +68,12 @@ function isLeapYear(/* date */) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(/* startDate, endDate */) {
-  throw new Error('Not implemented');
-}
-
+const timeSpanToString = (startDate, endDate) => {
+  const diff = Math.abs(endDate.getTime() - startDate.getTime());
+  const newDate = new Date(diff);
+  const newDateStr = newDate.toISOString();
+  return newDateStr.substring(11, newDateStr.length - 1);
+};
 
 /**
  * Returns the angle (in radians) between the hands of an analog clock
@@ -94,10 +91,17 @@ function timeSpanToString(/* startDate, endDate */) {
  *    Date.UTC(2016,3,5,18, 0) => Math.PI
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
-function angleBetweenClockHands(/* date */) {
-  throw new Error('Not implemented');
-}
+const angleBetweenClockHands = (date) => {
+  const newDate = new Date(date);
+  const hours = newDate.getUTCHours() % 12;
+  const mins = newDate.getUTCMinutes();
+  const angleMinsDeg = (mins / 60) * 360;
+  const angleHoursDeg = (hours / 12) * 360 + (angleMinsDeg / 12);
 
+  const angleDeg = Math.max(angleHoursDeg, angleMinsDeg) - Math.min(angleHoursDeg, angleMinsDeg);
+  const angleRad = Math.PI * (angleDeg / 180);
+  return Math.min(angleRad, (2 * Math.PI - angleRad));
+};
 
 module.exports = {
   parseDataFromRfc2822,
