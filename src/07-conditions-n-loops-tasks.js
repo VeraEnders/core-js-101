@@ -27,10 +27,12 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
-}
-
+const getFizzBuzz = (num) => {
+  if (num % 3 === 0 && num % 5 === 0) { return 'FizzBuzz'; }
+  if (num % 3 === 0) { return 'Fizz'; }
+  if (num % 5 === 0) { return 'Buzz'; }
+  return num;
+};
 
 /**
  * Returns the factorial of the specified integer n.
@@ -43,10 +45,10 @@ function getFizzBuzz(/* num */) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
-}
-
+const getFactorial = (n) => {
+  if (n === 0) { return 1; }
+  return n * getFactorial(n - 1);
+};
 
 /**
  * Returns the sum of integer numbers between n1 and n2 (inclusive).
@@ -60,10 +62,15 @@ function getFactorial(/* n */) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(/* n1, n2 */) {
-  throw new Error('Not implemented');
-}
-
+const getSumBetweenNumbers = (n1, n2) => {
+  let sum = 0;
+  let nextNum = n1;
+  while (nextNum <= n2) {
+    sum += nextNum;
+    nextNum += 1;
+  }
+  return sum;
+};
 
 /**
  * Returns true, if a triangle can be built with the specified sides a, b, c
@@ -80,10 +87,7 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
-}
-
+const isTriangle = (a, b, c) => ((a + b > c) && (b + c > a) && (a + c > b));
 
 /**
  * Returns true, if two specified axis-aligned rectangles overlap, otherwise false.
@@ -164,10 +168,20 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
-}
-
+const findFirstSingleChar = (str) => {
+  const obj = {};
+  for (let i = 0; i < str.length; i += 1) {
+    const x = str[i];
+    if (obj[x] === undefined) {
+      obj[x] = 1;
+    } else {
+      obj[x] += 1;
+    }
+  }
+  const values = Object.values(obj);
+  const index = values.indexOf(1);
+  return (index !== -1) ? Object.keys(obj)[index] : null;
+};
 
 /**
  * Returns the string representation of math interval,
